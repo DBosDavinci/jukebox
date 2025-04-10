@@ -1,4 +1,28 @@
 services:
+  backend:
+    build:
+      context: ./react-jukebox-server
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgresql://user:password@db:5432/playlistdb
+    networks:
+      - jukebox-network
+
+  frontend:
+    build:
+      context: ./react-jukebox-client
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    environment:
+      - NEXT_PUBLIC_API_URL=http://backend:5000/api
+    networks:
+      - jukebox-network
+
   db:
     image: postgres:15
     restart: always
@@ -10,6 +34,12 @@ services:
       - "5433:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+    networks:
+      - jukebox-network
+
+networks:
+  jukebox-network:
+    driver: bridge
 
 volumes:
   pgdata:

@@ -1,5 +1,5 @@
 "use client"
-import { createContext, useContext, useEffect, useState, ReactNode } from "react";
+import { createContext, useContext, useState, ReactNode } from "react";
 import Song from "../models/song";
 
 interface PlaylistContextType {

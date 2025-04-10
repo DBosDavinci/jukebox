@@ -6,7 +6,7 @@ import testSongs from "@/app/testdata/testsongs";
 import { Box, Button, Snackbar } from "@mui/material";
 
 export default function Details({ params }: { params: Promise<{ songId: number }> }) {
-  const { addToPlaylist, removeFromPlaylist, playlist } = usePlaylist();
+  const { addToPlaylist, removeFromPlaylist } = usePlaylist();
   const { songId } = use(params);
   const song = testSongs.find(song => song.id === Number(songId))!;
 

@@ -12,6 +12,6 @@ app.get("/api/songs", async (_req, res) => {
   res.json(songs);
 });
 
-app.listen(3001, () => {
+app.listen(5000, () => {
   console.log("Server running on http://localhost:3001");
 });
