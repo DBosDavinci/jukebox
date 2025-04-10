@@ -22,7 +22,7 @@ export default function Navbar() {
               <Link href="/playlists">Playlists</Link>
             </Typography>
           </Box>
-          <Button href="/login" color="inherit">Login</Button>
+          <Button component={Link} href="/login" color="inherit">Login</Button>
         </Toolbar>
       </AppBar>
     </Box>
