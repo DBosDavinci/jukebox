@@ -3,12 +3,10 @@ import Link from "next/link";
 
 export default function Login() {
     return (
-      <div className="login">
+      <div className="register">
+        <p>Register a new account</p>
         <Input placeholder="username"/>
         <Input placeholder="password"/>
-        <Button>login</Button>
-        
-        <p>no account? register here:</p>
         <Button component={Link} href="/register">Register</Button>
       </div>
     );
