@@ -4,6 +4,7 @@ import { use, useState } from "react";
 import { usePlaylist } from "@/app/context/PlaylistContext";
 import testSongs from "@/app/testdata/testsongs";
 import { Box, Button, Snackbar } from "@mui/material";
+import SecondsToMinutes from "@/app/functions/SecondsToMinutes";
 
 export default function Details({ params }: { params: Promise<{ songId: number }> }) {
   const { addToPlaylist, removeFromPlaylist } = usePlaylist();
@@ -30,6 +31,7 @@ export default function Details({ params }: { params: Promise<{ songId: number }
     <div>
       <Box>
         <h1>{song.name} details</h1>
+        <p>the duration of this song is: {SecondsToMinutes(song.length)}</p>
 
         <Button onClick={handleAdd} variant="contained" color="primary">
           Add to Playlist
