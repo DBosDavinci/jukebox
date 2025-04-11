@@ -8,6 +8,24 @@ CREATE TABLE "User" (
 );
 
 -- CreateTable
+CREATE TABLE "Song" (
+    "id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
+    "genreId" INTEGER NOT NULL,
+    "length" INTEGER NOT NULL,
+
+    CONSTRAINT "Song_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Genre" (
+    "id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
+
+    CONSTRAINT "Genre_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "Playlist" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
@@ -28,6 +46,9 @@ CREATE TABLE "_PlaylistSongs" (
 
 -- CreateIndex
 CREATE INDEX "_PlaylistSongs_B_index" ON "_PlaylistSongs"("B");
+
+-- AddForeignKey
+ALTER TABLE "Song" ADD CONSTRAINT "Song_genreId_fkey" FOREIGN KEY ("genreId") REFERENCES "Genre"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Playlist" ADD CONSTRAINT "Playlist_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

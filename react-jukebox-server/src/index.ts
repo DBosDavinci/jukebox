@@ -12,6 +12,11 @@ app.get("/api/songs", async (_req, res) => {
   res.json(songs);
 });
 
+app.get("/api/genres", async (_req, res) => {
+  const genres = await prisma.genre.findMany()
+  res.json(genres);
+});
+
 app.listen(5000, () => {
-  console.log("Server running on http://localhost:3001");
+  console.log("Server running on http://localhost:5000");
 });
