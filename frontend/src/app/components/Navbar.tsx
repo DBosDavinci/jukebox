@@ -24,8 +24,13 @@ export default async function Navbar() {
               <Link href="/genres">Genres</Link>
             </Typography>
             <Typography variant="h6" className="links">
+              <Link href="/playlists/create">Create playlist</Link>
+            </Typography>
+            {session?.user &&
+            <Typography variant="h6" className="links">
               <Link href="/playlists">Playlists</Link>
             </Typography>
+            }
           </Box>
           {session?.user ?
             <>

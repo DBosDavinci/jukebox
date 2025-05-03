@@ -15,7 +15,7 @@ export default async function Genres({params,}:{params: Promise<{ genreId: numbe
           <h1>{genre.name}</h1>
           <List>
             {songs.map(song => {
-              return <ListItem key={song.name}>{song.name} <Button component={Link} href={`/songs/${song.id}/details`}>Details</Button></ListItem>
+              return <ListItem key={song.name}>{song.name} <Button component={Link} href={`/songs/${song.id}`}>Details</Button></ListItem>
             })}
           </List>
         </Box>

@@ -6,6 +6,29 @@ import { authOptions } from "../api/auth/[...nextauth]/options";
 import axios from "axios";
 import Song from "../models/song";
 
+export async function getPlaylistsById(id: number) {
+
+    const response = await axios.get(`http://backend:5000/api/playlist/${id}`)
+
+    if (response.status == 200) {
+        return response.data;
+    } else {
+        notFound()
+    }
+  }
+
+
+export async function getPlaylistsByUser(userId: number) {
+
+    const response = await axios.get(`http://backend:5000/api/playlist/user/${userId}`)
+
+    if (response.status == 200) {
+        return response.data;
+    } else {
+        notFound()
+    }
+  }
+
 export async function createPlaylist(name: string, songs: Song[]) {
     const session = await getServerSession(authOptions);
     const totalLength = songs.reduce((total, song) => total + song.length, 0);
@@ -17,9 +40,9 @@ export async function createPlaylist(name: string, songs: Song[]) {
         songs: songs
     })
 
-    if (response.status == 200) {
+    if (response.status == 201) {
         return true;
     } else {
-        notFound()
+        return false;
     }
   }

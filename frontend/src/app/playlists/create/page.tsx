@@ -1,11 +1,15 @@
 "use client"
-import { Button, Input } from "@mui/material";
+
+import { Button, Input, IconButton, List, ListItem } from "@mui/material";
+import ClearIcon from '@mui/icons-material/Clear';
+import InfoIcon from '@mui/icons-material/Info';
 import { useState } from "react";
 import { usePlaylist } from "../../context/PlaylistContext";
 import { createPlaylist } from "../../functions/playlist";
+import Link from "next/link";
 
 export default function CreatePlaylist() {
-  const { playlist } = usePlaylist();
+  const { playlist, removeFromPlaylist } = usePlaylist();
   const [name, setName] = useState("");
 
   const handleSave = async () => {
@@ -13,11 +17,31 @@ export default function CreatePlaylist() {
       alert("Kan playlist niet zonder naam opslaan.");
       return;
     }
-    await createPlaylist(name, playlist);
+
+    if (!playlist) {
+      alert("Kan playlist niet zonder muziek opslaan.");
+      return;
+    }
+  
+    const result = await createPlaylist(name, playlist);
+    if (result) {
+      window.location.href = "/playlists";
+    } else {
+      alert("Er is iets misgegaan bij het opslaan.");
+    }
   };
 
   return (
     <div className="playlists">
+      <h1>Jouw playlist:</h1>
+        <List>
+          {playlist.length === 0 ? <p>Nog geen nummers toegevoegd.</p> : playlist.map((song, index) => (
+            <ListItem key={index}>{song.name} 
+              <IconButton onClick={() => removeFromPlaylist(song)}><ClearIcon sx={{color:"red"}}/></IconButton>
+              <IconButton component={Link} href={`/songs/${song.id}`}><InfoIcon sx={{color:"white"}}/></IconButton>
+            </ListItem>
+          ))}
+        </List>
       <h1>Geef jouw playlist een naam:</h1>
       <div>
         <Input
