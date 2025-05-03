@@ -34,7 +34,6 @@ model Genre {
 model Playlist {
   id       Int      @id @default(autoincrement())
   name     String
-  genre    String
   length   Int
   userId   Int
   user     User     @relation(fields: [userId], references: [id])
