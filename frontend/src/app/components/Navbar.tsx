@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/options";
+import LogoutButton from "./LogoutButton";
 
 export default async function Navbar() {
   const session = await getServerSession(authOptions);
@@ -27,7 +28,10 @@ export default async function Navbar() {
             </Typography>
           </Box>
           {session?.user ?
-            <h1>{session?.user.name}</h1> :
+            <>
+              <Typography variant="h6" sx={{ marginRight: 2 }}>{session.user.name}</Typography>
+              <LogoutButton/>
+            </> :
             <Button component={Link} href="/login" color="inherit">Login</Button>
           }
         </Toolbar>

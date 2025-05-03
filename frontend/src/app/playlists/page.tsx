@@ -1,5 +1,5 @@
 "use client"
-import { IconButton } from "@mui/material";
+import { Button, IconButton } from "@mui/material";
 import ClearIcon from '@mui/icons-material/Clear';
 import InfoIcon from '@mui/icons-material/Info';
 import { usePlaylist } from "../context/PlaylistContext";
@@ -18,6 +18,7 @@ export default function Playlists() {
               <IconButton component={Link} href={`/songs/${song.id}/details`}><InfoIcon sx={{color:"white"}}/></IconButton>
             </li>
           ))}
+          <Button component={Link} href="/playlists/create">Opslaan</Button>
         </ul>
       </div>
     );

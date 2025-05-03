@@ -18,7 +18,7 @@ export default function Login() {
     if (res?.ok) {
       window.location.href = "/";
     } else {
-      alert("Invalide login");
+      alert("Foute login");
     }
   };
 
