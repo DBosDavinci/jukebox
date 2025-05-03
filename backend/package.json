@@ -1,0 +1,33 @@
+{
+  "name": "react-jukebox-server",
+  "version": "1.0.0",
+  "description": "backend voor react jukebox",
+  "main": "./src/index.ts",
+  "scripts": {
+    "start": "npx nodemon"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@prisma/client": "^6.7.0",
+    "@types/bcrypt": "^5.0.2",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.1",
+    "@types/jsonwebtoken": "^9.0.9",
+    "@types/node": "^22.14.0",
+    "nodemon": "^3.1.9",
+    "prisma": "^6.7.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mysql": "^2.18.1"
+  }
+}

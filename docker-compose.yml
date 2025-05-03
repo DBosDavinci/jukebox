@@ -1,7 +1,7 @@
 services:
   backend:
     build:
-      context: ./react-jukebox-server
+      context: ./backend
     ports:
       - "5000:5000"
     depends_on:
@@ -10,10 +10,11 @@ services:
       - DATABASE_URL=postgresql://user:password@db:5432/playlistdb
     networks:
       - jukebox-network
+    command: /bin/sh -c "npx prisma generate && npx prisma migrate deploy && npx prisma db seed && npm start"
 
   frontend:
     build:
-      context: ./react-jukebox-client
+      context: ./frontend
     ports:
       - "3000:3000"
     depends_on:
