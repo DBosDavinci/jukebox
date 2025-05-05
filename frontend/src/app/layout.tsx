@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Navbar from "./components/Navbar";
 import "./globals.css";
 import { PlaylistProvider } from "./context/PlaylistContext";
+import SessionProviderWrapper from "./SessionProviderWrapper";
 
 export const metadata: Metadata = {
   title: "React jukebox",
@@ -16,10 +17,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Navbar/>
-        <PlaylistProvider>
-          {children}
-        </PlaylistProvider>
+        <SessionProviderWrapper>
+          <Navbar />
+          <PlaylistProvider>
+            {children}
+          </PlaylistProvider>
+        </SessionProviderWrapper>
       </body>
     </html>
   );

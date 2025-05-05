@@ -15,8 +15,7 @@ export async function getPlaylistsById(id: number) {
     } else {
         notFound()
     }
-  }
-
+}
 
 export async function getPlaylistsByUser(userId: number) {
 
@@ -27,15 +26,15 @@ export async function getPlaylistsByUser(userId: number) {
     } else {
         notFound()
     }
-  }
+}
 
 export async function createPlaylist(name: string, songs: Song[]) {
     const session = await getServerSession(authOptions);
-    const totalLength = songs.reduce((total, song) => total + song.length, 0);
+    const length = songs.reduce((total, song) => total + song.length, 0);
 
     const response = await axios.post(`http://backend:5000/api/playlist`, {
         name: name,
-        length: totalLength,
+        length: length,
         userId: session?.user.id,
         songs: songs
     })
@@ -45,4 +44,24 @@ export async function createPlaylist(name: string, songs: Song[]) {
     } else {
         return false;
     }
-  }
+}
+
+export async function updatePlaylistName(id: number, name: string) {
+
+    const response = await axios.put(`http://backend:5000/api/playlist/${id}`, {
+        name: name
+    })
+
+    if (response.status == 200) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+export async function removeSongFromPlaylist(playlistId: number, songId: number) {
+
+    const response = await axios.delete(`http://backend:5000/api/playlist/${playlistId}/${songId}`)
+
+    return response.status === 200;
+}

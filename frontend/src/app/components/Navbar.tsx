@@ -1,22 +1,22 @@
+'use client';
+
 import img from "../images/Jukebox.png";
 import * as React from 'react';
 import "./Navbar.css";
-import {Typography, Toolbar, Box, AppBar, Button} from '@mui/material';
+import { Typography, Toolbar, Box, AppBar, Button } from '@mui/material';
 import Image from "next/image";
 import Link from "next/link";
-import { getServerSession } from "next-auth";
-import { authOptions } from "../api/auth/[...nextauth]/options";
-import LogoutButton from "./LogoutButton";
+import { signOut, useSession } from "next-auth/react";
 
-export default async function Navbar() {
-  const session = await getServerSession(authOptions);
+export default function Navbar() {
+  const { data: session } = useSession();
 
   return (
     <Box>
       <AppBar position="static">
         <Toolbar>
-          <Image src={img} alt="" width={50} height={50}/>
-          <Box sx={{ flexGrow : 1, flexDirection: "row", display: "flex" }}>
+          <Image src={img} alt="" width={50} height={50} />
+          <Box sx={{ flexGrow: 1, flexDirection: "row", display: "flex" }}>
             <Typography variant="h6" className="links">
               <Link href="/">Home</Link>
             </Typography>
@@ -27,18 +27,19 @@ export default async function Navbar() {
               <Link href="/playlists/create">Create playlist</Link>
             </Typography>
             {session?.user &&
-            <Typography variant="h6" className="links">
-              <Link href="/playlists">Playlists</Link>
-            </Typography>
+              <Typography variant="h6" className="links">
+                <Link href="/playlists">Playlists</Link>
+              </Typography>
             }
           </Box>
-          {session?.user ?
+          {session?.user ? (
             <>
               <Typography variant="h6" sx={{ marginRight: 2 }}>{session.user.name}</Typography>
-              <LogoutButton/>
-            </> :
+              <Button onClick={() => signOut({ callbackUrl: '/' })} color="inherit">Logout</Button>
+            </>
+          ) : (
             <Button component={Link} href="/login" color="inherit">Login</Button>
-          }
+          )}
         </Toolbar>
       </AppBar>
     </Box>

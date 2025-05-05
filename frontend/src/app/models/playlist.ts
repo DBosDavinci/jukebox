@@ -4,7 +4,7 @@ interface Playlist {
     id: number
     name: string
     songs: Song[]
-    totalLength: number
+    length: number
 }
 
 export default Playlist
