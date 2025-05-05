@@ -2,7 +2,7 @@
 
 import { Input, Button } from "@mui/material";
 import * as React from 'react';
-import { getPlaylistsById, updatePlaylistName } from "@/app/functions/playlist";
+import { getPlaylistsById, updatePlaylist } from "@/app/functions/playlist";
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from 'next/navigation';
 
@@ -25,7 +25,7 @@ export default function RenamePlaylistPage() {
     }, [playlistId]);
 
     const handleSave = async () => {
-        await updatePlaylistName(playlistId, name);
+        await updatePlaylist(playlistId, { name });
         router.push(`/playlists/${playlistId}`);
     };
 

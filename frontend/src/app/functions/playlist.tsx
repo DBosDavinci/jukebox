@@ -46,17 +46,13 @@ export async function createPlaylist(name: string, songs: Song[]) {
     }
 }
 
-export async function updatePlaylistName(id: number, name: string) {
+export async function updatePlaylist(
+    id: number,
+    data: { name?: string; songs?: Song[] }
+) {
+    const response = await axios.put(`http://backend:5000/api/playlist/${id}`, data);
 
-    const response = await axios.put(`http://backend:5000/api/playlist/${id}`, {
-        name: name
-    })
-
-    if (response.status == 200) {
-        return true;
-    } else {
-        return false;
-    }
+    return response.status === 200;
 }
 
 export async function removeSongFromPlaylist(playlistId: number, songId: number) {

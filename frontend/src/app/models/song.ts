@@ -1,7 +1,7 @@
 interface Song {
     id: number
     name: string
-    genre: string
+    genreId: number
     length: number
 }
 

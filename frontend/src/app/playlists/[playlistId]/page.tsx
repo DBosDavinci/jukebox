@@ -4,7 +4,8 @@ import Link from "next/link";
 import { getPlaylistsById } from "@/app/functions/playlist";
 import Playlist from "../../models/playlist";
 import SecondsToMinutes from "@/app/functions/SecondsToMinutes";
-import RemoveSongButton from "@/app/components/RemoveSongButton";
+import RemoveSongButton from "@/app/playlists/[playlistId]/RemoveSongButton";
+import SongsPopup from "./SongsPopup";
 
 export default async function PlaylistSpecific({ params, }: { params: Promise<{ playlistId: number }> }) {
   const { playlistId } = await params;
@@ -24,7 +25,7 @@ export default async function PlaylistSpecific({ params, }: { params: Promise<{ 
             </ListItem>
           })}
         </List>
-        <Button component={Link} href={`/playlists/${playlistId}/addsongs`}>Add more songs</Button>
+        <SongsPopup currentSongs={playlist.songs} />
       </Box>
     </div>
   );

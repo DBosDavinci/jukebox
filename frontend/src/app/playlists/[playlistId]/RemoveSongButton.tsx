@@ -2,7 +2,7 @@
 
 import { IconButton } from "@mui/material";
 import ClearIcon from '@mui/icons-material/Clear';
-import { removeSongFromPlaylist } from "../functions/playlist";
+import { removeSongFromPlaylist } from "../../functions/playlist";
 
 export default function RemoveSongButton({ songId, playlistId }: { songId: number, playlistId: number }) {
   const handleRemove = async () => {
