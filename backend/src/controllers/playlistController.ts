@@ -43,23 +43,46 @@ export const createPlaylist = async (req: Request, res: Response) => {
     }
 }
 
-export const updatePlaylistName = async (req: Request, res: Response) => {
-    const { name } = req.body
+export const updatePlaylist = async (req: Request, res: Response) => {
+    const { name, songs }: { name?: string; songs?: number[] } = req.body;
     const id = parseInt(req.params.id, 10);
 
     try {
-        await prisma.playlist.update({
-            where: { id: id },
-            data: {
-                name: name
+        await prisma.$transaction(async (tx) => {
+            const updateData: any = {};
+
+            if (name !== undefined) {
+                updateData.name = name;
             }
+
+            if (songs !== undefined) {
+                updateData.songs = {
+                    set: songs.map((songId) => ({ id: songId })),
+                };
+            }
+
+            await tx.playlist.update({
+                where: { id },
+                data: updateData,
+            });
+
+            const updated = await tx.playlist.findUnique({
+                where: { id },
+                include: { songs: true },
+            });
+
+            await tx.playlist.update({
+                where: { id },
+                data: { length: updated?.songs.reduce((sum, song) => sum + song.length, 0) || 0 },
+            });
         });
+
         res.status(200).json({ success: true });
     } catch (err) {
-        console.error("Playlist error:", err);
+        console.error("Playlist update error:", err);
         res.status(500).json({ message: "Internal server error" });
     }
-}
+};
 
 export const removeSongFromPlaylist = async (req: Request, res: Response) => {
     const songId = parseInt(req.params.songId, 10);

@@ -25,7 +25,7 @@ export default async function PlaylistSpecific({ params, }: { params: Promise<{ 
             </ListItem>
           })}
         </List>
-        <SongsPopup currentSongs={playlist.songs} />
+        <SongsPopup playlistId={playlist.id} currentSongs={playlist.songs} />
       </Box>
     </div>
   );

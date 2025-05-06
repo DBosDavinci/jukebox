@@ -48,7 +48,7 @@ export async function createPlaylist(name: string, songs: Song[]) {
 
 export async function updatePlaylist(
     id: number,
-    data: { name?: string; songs?: Song[] }
+    data: { name?: string; songs?: number[] }
 ) {
     const response = await axios.put(`http://backend:5000/api/playlist/${id}`, data);
 

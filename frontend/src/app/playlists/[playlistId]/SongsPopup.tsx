@@ -14,12 +14,15 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Song from '@/app/models/song';
 import Genre from '@/app/models/genre';
+import { updatePlaylist } from '@/app/functions/playlist';
+import { useRouter } from 'next/navigation';
 
-export default function SongsPopup({ currentSongs }: { currentSongs: Song[] }) {
+export default function SongsPopup({ playlistId, currentSongs }: { playlistId: number, currentSongs: Song[] }) {
     const [open, setOpen] = useState(false);
     const [songs, setSongs] = useState<Song[]>([]);
     const [genres, setGenres] = useState<Genre[]>([]);
     const [selectedSongIds, setSelectedSongIds] = useState<Set<number>>(new Set(currentSongs.map(song => song.id)));
+    const router = useRouter()
 
     useEffect(() => {
         const fetchSongsAndGenres = async () => {
@@ -50,6 +53,23 @@ export default function SongsPopup({ currentSongs }: { currentSongs: Song[] }) {
         return songs.filter(song => song.genreId === genreId);
     };
 
+    const handleSave = async () => {
+        try {
+            const response = await updatePlaylist(playlistId, { songs: Array.from(selectedSongIds) })
+
+            if (!response) {
+                throw new Error("Failed to save songs.");
+            }
+
+            setOpen(false);
+            router.refresh()
+        } catch (error) {
+            console.error("Error saving songs:", error);
+            alert("Failed to save changes.");
+        }
+    };
+
+
     return (
         <>
             <Button onClick={() => setOpen(true)}>Add more songs</Button>
@@ -77,8 +97,18 @@ export default function SongsPopup({ currentSongs }: { currentSongs: Song[] }) {
                             </AccordionDetails>
                         </Accordion>
                     ))}
+
+                    <div style={{ marginTop: '20px', textAlign: 'right' }}>
+                        <Button onClick={() => setOpen(false)} style={{ marginRight: '10px' }}>
+                            Cancel
+                        </Button>
+                        <Button onClick={handleSave} variant="contained" color="primary">
+                            Save
+                        </Button>
+                    </div>
                 </div>
             </Dialog>
+
         </>
     );
 }
