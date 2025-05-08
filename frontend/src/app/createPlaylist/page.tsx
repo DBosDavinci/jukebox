@@ -4,15 +4,15 @@ import { Button, Input, IconButton, List, ListItem } from "@mui/material";
 import ClearIcon from '@mui/icons-material/Clear';
 import InfoIcon from '@mui/icons-material/Info';
 import { useState } from "react";
-import { usePlaylist } from "../../context/PlaylistContext";
-import { createPlaylist } from "../../functions/playlist";
+import { usePlaylist } from "../context/PlaylistContext";
+import { createPlaylist } from "../functions/playlist";
 import Link from "next/link";
 import SecondsToMinutes from "@/app/functions/SecondsToMinutes";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 export default function CreatePlaylist() {
-  const { playlist, removeFromPlaylist } = usePlaylist();
+  const { playlist, removeFromPlaylist, resetPlaylist } = usePlaylist();
   const { data: session } = useSession();
   const [name, setName] = useState("");
   const router = useRouter();
@@ -30,6 +30,7 @@ export default function CreatePlaylist() {
 
     const result = await createPlaylist(name, playlist);
     if (result) {
+      resetPlaylist();
       router.push('/playlists');
     } else {
       alert("Er is iets misgegaan bij het opslaan.");

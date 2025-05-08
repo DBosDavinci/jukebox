@@ -6,6 +6,7 @@ interface PlaylistContextType {
   playlist: Song[];
   addToPlaylist: (song: Song) => boolean;
   removeFromPlaylist: (song: Song) => void;
+  resetPlaylist: () => void;
 }
 
 const PlaylistContext = createContext<PlaylistContextType | undefined>(undefined);
@@ -26,8 +27,12 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
     setPlaylist((prev) => prev.filter((item) => item !== song));
   };
 
+  const resetPlaylist = () => {
+    setPlaylist([])
+  }
+
   return (
-    <PlaylistContext.Provider value={{ playlist, addToPlaylist, removeFromPlaylist }}>
+    <PlaylistContext.Provider value={{ playlist, addToPlaylist, removeFromPlaylist, resetPlaylist }}>
       {children}
     </PlaylistContext.Provider>
   );
