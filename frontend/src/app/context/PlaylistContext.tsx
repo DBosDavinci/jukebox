@@ -1,5 +1,5 @@
 "use client"
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, ReactNode, useEffect } from "react";
 import Song from "../models/song";
 
 interface PlaylistContextType {
@@ -13,6 +13,21 @@ const PlaylistContext = createContext<PlaylistContextType | undefined>(undefined
 
 export function PlaylistProvider({ children }: { children: ReactNode }) {
   const [playlist, setPlaylist] = useState<Song[]>([]);
+
+  useEffect(() => {
+    const stored = localStorage.getItem("playlist");
+    if (stored) {
+      try {
+        setPlaylist(JSON.parse(stored));
+      } catch (err) {
+        console.error("Failed to parse playlist from localStorage:", err);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("playlist", JSON.stringify(playlist));
+  }, [playlist]);
 
   const addToPlaylist = (song: Song): boolean => {
     const exists = playlist.some((s) => s.id === song.id);
